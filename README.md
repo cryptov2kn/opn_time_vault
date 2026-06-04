@@ -16,7 +16,7 @@ Users can lock native OPN assets for a selected period and unlock them once the 
 
 Current Contract:
 
-0xf60c86e11D9F92a90E7e7117BF7a0255b6ef431E
+0xd97a6C240c23cf4E0C456dfF2f22491070C5D21D
 
 ## How It Works
 
