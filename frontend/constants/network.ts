@@ -1,0 +1,1 @@
+export const GAS_RESERVE = 0.05;

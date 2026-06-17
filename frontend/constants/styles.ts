@@ -1,0 +1,20 @@
+export const quickButtonClass = `
+  rounded-md
+  border
+  border-gray-700
+  bg-gray-800
+  px-2
+  py-1
+  text-xs
+  text-gray-400
+  transition-all
+  duration-200
+  hover:border-gray-500
+  hover:bg-gray-700
+  hover:text-white
+  disabled:opacity-40
+disabled:cursor-not-allowed
+disabled:hover:bg-gray-800
+disabled:hover:text-gray-400
+disabled:hover:border-gray-700
+`;
