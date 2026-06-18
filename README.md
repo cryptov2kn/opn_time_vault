@@ -1,46 +1,127 @@
 # OPN Time Vault
 
-OPN Time Vault is a simple on-chain asset locking protocol built on OPN Testnet.
+A decentralized time-lock vault built on the OPN network.
 
-Users can lock native OPN assets for a selected period and unlock them once the lock duration expires.
+Users can lock OPN assets for a selected duration, monitor lock status, track transaction history, and unlock assets once the lock period expires.
+
+## Live Demo
+
+https://opn-time-vault.vercel.app
 
 ## Features
 
-* Permissionless asset locking
-* Fully on-chain
-* Non-custodial
-* Open-source smart contract
-* Built on OPN
+- Wallet Connection
+- Asset Locking
+- Asset Unlocking
+- Real-Time Lock Status
+- Transaction History
+- Explorer Integration
+- Network Validation
+- Responsive UI
+- Local History Caching
+
+## Screenshots
+
+### Dashboard
+
+![Dashboard](./screenshots/dashboard.png)
+
+### Active Lock
+
+![Active Lock](./screenshots/active-lock.png)
+
+### Transaction History
+
+![History](./screenshots/history.png)
+
+## Validation
+
+- Amount must be greater than 0
+- Amount cannot exceed wallet balance
+- Gas reserve protection
+- Network validation
+- Automatic wallet change detection
+- Transaction status notifications
+
+## Advanced Features
+
+- Automatic wallet account change detection
+- Automatic vault state refresh
+- Local transaction history caching
+- Network validation
+
+## Tech Stack
+
+### Frontend
+
+- Next.js
+- TypeScript
+- Tailwind CSS
+- ethers.js
+
+### Smart Contracts
+
+- Solidity
+- EVM Compatible Network
 
 ## Smart Contract
 
-Current Contract:
+Contract Address:
 
-0xd97a6C240c23cf4E0C456dfF2f22491070C5D21D
+```text
+0xd97a6c240c23cf4e0c456dff2f22491070c5d21d
+```
 
-## How It Works
+Explorer:
 
-1. User chooses a lock duration.
-2. User deposits OPN into the contract.
-3. Assets remain locked until the unlock timestamp.
-4. User withdraws assets after the lock period.
+https://testnet.iopn.tech/address/0xd97a6C240c23cf4E0C456dfF2f22491070C5D21D
 
-## Roadmap
+## Getting Started
 
-### V1
+### Install Dependencies
 
-* Single lock position
-* Native OPN support
+```bash
+npm install
+```
 
-### V2
+### Run Development Server
 
-* Multiple lock positions
-* ERC20 token support
+```bash
+npm run dev
+```
 
-### V3
+### Build Production Version
 
-* NFT lock receipts
-* Reward integrations
+```bash
+npm run build
+```
+
+### Start Production Server
+
+```bash
+npm run start
+```
+
+## Project Structure
+
+```text
+frontend/
+├── app/            # Application routes and pages
+├── components/     # Reusable UI components
+├── hooks/          # Custom React hooks
+├── lib/            # Wallet, contract and history services
+├── constants/      # Network and UI constants
+├── types/          # Shared TypeScript definitions
+├── utils/          # Formatting and helper functions
+├── public/         # Static assets
+├── package.json    # Project dependencies
+├── next.config.ts  # Next.js configuration
+└── tsconfig.json   # TypeScript configuration
+```
+
+## Deployment
+
+Deployed using Vercel.
 
 ## License
 
