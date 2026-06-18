@@ -226,6 +226,7 @@ border-gray-700
       ) : (
         <div
           className="
+history-scroll
 h-[320px]
 overflow-y-auto
 overflow-x-hidden

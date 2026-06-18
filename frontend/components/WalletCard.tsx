@@ -68,22 +68,26 @@ export default function WalletCard({
       </div>
 
       <button
-        onClick={onConnect}
-        className="
-          w-full
-          mt-4
-          rounded-xl
-          border
-          border-gray-600
-          py-3
-          text-white
-          hover:bg-gray-700
-          hover:scale-[1.02]
-          hover:-translate-y-0.5
-          transition
-        "
+        onClick={!isConnected ? onConnect : undefined}
+        disabled={isConnected}
+        className={`
+    w-full
+    mt-4
+    rounded-xl
+    border
+    border-gray-600
+    py-3
+    text-white
+    transition
+
+    ${
+      isConnected
+        ? "cursor-default opacity-70"
+        : "hover:bg-gray-700 hover:scale-[1.02] hover:-translate-y-0.5 cursor-pointer"
+    }
+  `}
       >
-        Connect Wallet
+        {isConnected ? "Wallet Connected" : "Connect Wallet"}
       </button>
     </div>
   );

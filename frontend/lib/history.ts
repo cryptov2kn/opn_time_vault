@@ -56,7 +56,7 @@ if (cached) {
     return events;
   }
 
-  const DEPLOY_BLOCK = 18330000;
+  const DEPLOY_BLOCK = 18630000;
   //const DEPLOY_BLOCK = 17966994;
 
   const currentBlock = await provider.getBlockNumber();
