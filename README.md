@@ -1,56 +1,99 @@
 # OPN Time Vault
 
+![Next.js](https://img.shields.io/badge/Next.js-16-black)
+![TypeScript](https://img.shields.io/badge/TypeScript-blue)
+![Tailwind](https://img.shields.io/badge/TailwindCSS-38BDF8)
+![ethers.js](https://img.shields.io/badge/ethers.js-v6-purple)
+![Vercel](https://img.shields.io/badge/Deploy-Vercel-black)
+
+<p align="center">
+  <img src="./screenshots/connect-wallet.png" width="700">
+</p>
+
 A decentralized time-lock vault built on the OPN network.
 
 Users can lock OPN assets for a selected duration, monitor lock status, track transaction history, and unlock assets once the lock period expires.
 
-## Live Demo
+## 🚀 Live Demo
 
-https://opn-time-vault.vercel.app
+[Launch Application](https://opn-time-vault.vercel.app)
 
-## Features
+## ✨ Features
+
+### Core Functionality
 
 - Wallet Connection
 - Asset Locking
 - Asset Unlocking
 - Real-Time Lock Status
 - Transaction History
+
+### User Experience
+
 - Explorer Integration
 - Network Validation
 - Responsive UI
 - Local History Caching
 
-## Screenshots
+## 📸 Screenshots
 
-### Dashboard
+<h3 align="center">Dashboard</h3>
 
-![Dashboard](./screenshots/dashboard.png)
+<p align="center">
+  <img src="./screenshots/dashboard.png" width="600">
+</p>
 
-### Active Lock
+<hr>
 
-![Active Lock](./screenshots/active-lock.png)
+<h3 align="center">Active Lock</h3>
 
-### Transaction History
+<p align="center">
+  <img src="./screenshots/active_lock.png" width="600">
+</p>
 
-![History](./screenshots/history.png)
+<hr>
 
-## Validation
+<h3 align="center">Ready To Unlock</h3>
+
+<p align="center">
+  <img src="./screenshots/active_unlock.png" width="600">
+</p>
+
+<hr>
+
+<h3 align="center">Transaction History</h3>
+
+<p align="center">
+  <img src="./screenshots/history.png" width="600">
+</p>
+
+## 🛡️ Validation
 
 - Amount must be greater than 0
 - Amount cannot exceed wallet balance
 - Gas reserve protection
 - Network validation
+- Lock state validation
+- Unlock eligibility validation
+- Transaction error handling
 - Automatic wallet change detection
 - Transaction status notifications
 
-## Advanced Features
+## ⚡ Advanced Features
 
 - Automatic wallet account change detection
 - Automatic vault state refresh
 - Local transaction history caching
-- Network validation
+- Manual history refresh
+- Transaction history filtering (All / Locks / Unlocks)
+- Direct transaction explorer links
+- Wallet address copy functionality
+- One-click wallet explorer access
+- Real-time lock countdown
+- Transaction status notifications
+- Responsive UI design
 
-## Tech Stack
+## 🛠️ Tech Stack
 
 ### Frontend
 
@@ -64,19 +107,19 @@ https://opn-time-vault.vercel.app
 - Solidity
 - EVM Compatible Network
 
-## Smart Contract
+## 🔗 Smart Contract
 
-Contract Address:
+**Contract Address**
 
 ```text
 0xd97a6c240c23cf4e0c456dff2f22491070c5d21d
 ```
 
-Explorer:
+**Explorer:**
 
 https://testnet.iopn.tech/address/0xd97a6C240c23cf4E0C456dfF2f22491070C5D21D
 
-## Getting Started
+## 📦 Getting Started
 
 ### Install Dependencies
 
@@ -102,7 +145,7 @@ npm run build
 npm run start
 ```
 
-## Project Structure
+## 📁 Project Structure
 
 ```text
 frontend/
@@ -119,10 +162,14 @@ frontend/
 └── tsconfig.json   # TypeScript configuration
 ```
 
-## Deployment
+## 🌐 Deployment
 
-Deployed using Vercel.
+Frontend is deployed on Vercel and connected to the OPN Testnet smart contract.
 
-## License
+Production URL:
+
+https://opn-time-vault.vercel.app
+
+## 📜 License
 
 MIT

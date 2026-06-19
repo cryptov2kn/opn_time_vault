@@ -171,12 +171,8 @@ export default function Home() {
 
       setIsConnected(true);
 
-      console.time("getLockInfo");
-
       getLockInfo(wallet.address)
         .then((lockInfo) => {
-          //console.timeEnd("getLockInfo");
-
           const amount = Number(lockInfo.amount);
 
           setLockedValue(amount);
@@ -318,6 +314,8 @@ export default function Home() {
       await handleConnect();
 
       clearHistoryCache();
+
+      await refreshHistory(); // thêm dòng này
     } catch (error) {
       console.error(error);
 
@@ -338,6 +336,8 @@ export default function Home() {
       await handleConnect();
 
       clearHistoryCache();
+
+      await refreshHistory(); // thêm dòng này
     } catch (error) {
       console.error(error);
 
