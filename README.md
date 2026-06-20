@@ -170,6 +170,22 @@ Production URL:
 
 https://opn-time-vault.vercel.app
 
+## 🚧 Future Improvements
+
+### V2
+
+- Multiple simultaneous locks
+- Beneficiary-based time vaults
+- Lock extension functionality
+- Advanced history filtering
+
+### V3
+
+- Team vesting schedules
+- DAO treasury timelocks
+- Multi-asset support
+- Mainnet deployment
+
 ## 📜 License
 
 MIT
