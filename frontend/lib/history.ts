@@ -10,29 +10,23 @@ import { CONTRACT_ADDRESS, CONTRACT_ABI } from "../config/contract";
 
 import type { HistoryItem } from "../types/history";
 
+import { getInjectedProvider } from "./provider";
+
 export async function getHistory(
   walletAddress: string,
 ): Promise<HistoryItem[]> {
+  const cacheKey = `history_${walletAddress}`;
 
-const cacheKey =
-  `history_${walletAddress}`;
+  const cached = localStorage.getItem(cacheKey);
 
-const cached =
-  localStorage.getItem(
-    cacheKey,
-  );
+  if (cached) {
+    console.log("Loaded history from cache");
 
-if (cached) {
-  console.log(
-    "Loaded history from cache",
-  );
+    return JSON.parse(cached);
+  }
 
-  return JSON.parse(
-    cached,
-  );
-}
-
-  const provider = new BrowserProvider(window.ethereum!);
+  //const provider = new BrowserProvider(window.ethereum!);
+  const provider = new BrowserProvider(getInjectedProvider()!);
 
   const contract = new Contract(CONTRACT_ADDRESS, CONTRACT_ABI, provider);
 
@@ -132,10 +126,7 @@ if (cached) {
 
   history.sort((a, b) => b.timestamp - a.timestamp);
 
-  localStorage.setItem(
-  cacheKey,
-  JSON.stringify(history),
-);
+  localStorage.setItem(cacheKey, JSON.stringify(history));
 
-return history;
+  return history;
 }

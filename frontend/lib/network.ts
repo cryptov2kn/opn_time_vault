@@ -1,10 +1,11 @@
+import { getInjectedProvider } from "./provider";
 export async function checkNetwork() {
   if (!window.ethereum) {
     return false;
   }
 
   try {
-    const chainId = await window.ethereum.request({
+    const chainId = await getInjectedProvider()?.request({
       method: "eth_chainId",
     });
 

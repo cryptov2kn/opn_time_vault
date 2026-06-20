@@ -1,9 +1,9 @@
 import { BrowserProvider, Contract, formatEther, parseEther } from "ethers";
-
+import { getInjectedProvider } from "./provider";
 import { CONTRACT_ADDRESS, CONTRACT_ABI } from "../config/contract";
 
 export async function getLockInfo(walletAddress: string) {
-  const provider = new BrowserProvider(window.ethereum!);
+  const provider = new BrowserProvider(getInjectedProvider()!);
   const contract = new Contract(CONTRACT_ADDRESS, CONTRACT_ABI, provider);
   const result = await contract.locks(walletAddress);
 
@@ -14,7 +14,7 @@ export async function getLockInfo(walletAddress: string) {
 }
 
 export async function lockAssets(amount: string, duration: number) {
-  const provider = new BrowserProvider(window.ethereum!);
+  const provider = new BrowserProvider(getInjectedProvider()!);
   const signer = await provider.getSigner();
   const contract = new Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
   const tx = await contract.lock(duration, {
@@ -25,7 +25,7 @@ export async function lockAssets(amount: string, duration: number) {
 }
 
 export async function unlockAssets() {
-  const provider = new BrowserProvider(window.ethereum!);
+  const provider = new BrowserProvider(getInjectedProvider()!);
   const signer = await provider.getSigner();
   const contract = new Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
   const tx = await contract.unlock();
