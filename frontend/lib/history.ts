@@ -41,8 +41,6 @@ export async function getHistory(
     for (let from = startBlock; from <= endBlock; from += CHUNK_SIZE) {
       const to = Math.min(from + CHUNK_SIZE - 1, endBlock);
 
-      console.log(`Queue ${from} -> ${to}`);
-
       requests.push(contract.queryFilter(filter, from, to));
     }
     const results = await Promise.all(requests);
@@ -50,8 +48,8 @@ export async function getHistory(
     return events;
   }
 
-  const DEPLOY_BLOCK = 18630000;
-  //const DEPLOY_BLOCK = 17966994;
+  const DEPLOY_BLOCK = 18830000;
+  //const DEPLOY_BLOCK = 18630000;
 
   const currentBlock = await provider.getBlockNumber();
 

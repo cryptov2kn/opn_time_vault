@@ -235,7 +235,6 @@ export default function Home() {
     try {
       setIsHistoryLoading(true);
       const data = await getHistory(fullAddress);
-
       setHistory(data);
       setHistoryWallet(fullAddress); //test
       setHistoryLoaded(true);
@@ -245,7 +244,7 @@ export default function Home() {
       setIsHistoryLoading(false);
       setWalletChanging(false);
     }
-  }, [fullAddress, historyLoaded]);
+  }, [fullAddress, historyLoaded, history.length]);
 
   const refreshHistory = async () => {
     if (!fullAddress) {
@@ -258,9 +257,10 @@ export default function Home() {
       localStorage.removeItem(`history_${fullAddress}`);
 
       const data = await getHistory(fullAddress);
+      console.log(`History updated: ${data.length} transactions`);
 
       setHistory(data);
-
+      setHistoryWallet(fullAddress); //test new
       setHistoryLoaded(true);
     } catch (error) {
       console.error(error);
@@ -315,7 +315,11 @@ export default function Home() {
 
       clearHistoryCache();
 
-      await refreshHistory(); // thêm dòng này
+      setTimeout(() => {
+        refreshHistory();
+      }, 5000);
+
+      console.log("Lock completed and history refreshed");
     } catch (error) {
       console.error(error);
 
@@ -337,7 +341,11 @@ export default function Home() {
 
       clearHistoryCache();
 
-      await refreshHistory(); // thêm dòng này
+      setTimeout(() => {
+        refreshHistory();
+      }, 5000);
+
+      console.log("Unlock completed and history refreshed");
     } catch (error) {
       console.error(error);
 
@@ -406,18 +414,21 @@ export default function Home() {
 
       if (walletAccounts.length === 0) {
         resetWalletState();
-
         return;
       }
 
       try {
         setWalletChanging(true);
         setIsHistoryLoading(true);
+
         await handleConnect();
 
         setHistoryLoaded(false);
       } catch (error) {
         console.error(error);
+      } finally {
+        setWalletChanging(false);
+        setIsHistoryLoading(false);
       }
     };
 

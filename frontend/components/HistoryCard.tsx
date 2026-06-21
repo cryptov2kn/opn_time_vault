@@ -61,6 +61,14 @@ export default function HistoryCard({
   });
 
   const isHistoryCurrent = historyWallet === currentWallet;
+  console.log("historyWallet =", historyWallet);
+  console.log("currentWallet =", currentWallet);
+  console.log("isHistoryCurrent =", historyWallet === currentWallet); //test new
+
+  console.log("history.length =", history.length);
+  console.log("filteredHistory.length =", filteredHistory.length);
+  console.log("isLoading =", isLoading);
+  console.log("walletChanging =", walletChanging);
 
   return (
     <div className="mt-5 rounded-2xl border border-gray-700 bg-gray-800 p-4">
@@ -236,11 +244,12 @@ px-1
 pb-1
 "
         >
-          {filteredHistory.map((item, index) => (
-            <div
-              key={index}
-              onClick={() => openTx(item.txHash)}
-              className={`flex
+          {filteredHistory.map((item, index) => {
+            return (
+              <div
+                key={index}
+                onClick={() => openTx(item.txHash)}
+                className={`flex
 items-center
 justify-between
 rounded-2xl
@@ -272,29 +281,32 @@ ${
       hover:bg-emerald-500/15
     `
 }`}
-            >
-              <div>
-                <p
-                  className={`font-medium ${
-                    item.type === "lock" ? "text-yellow-400" : "text-green-400"
-                  }`}
-                >
-                  {item.type === "lock" ? "🔒 Lock" : "🔓 Unlock"}
-                </p>
+              >
+                <div>
+                  <p
+                    className={`font-medium ${
+                      item.type === "lock"
+                        ? "text-yellow-400"
+                        : "text-green-400"
+                    }`}
+                  >
+                    {item.type === "lock" ? "🔒 Lock" : "🔓 Unlock"}
+                  </p>
 
-                <p className="text-xs text-gray-400">
-                  {formatTimestamp(item.timestamp)}
+                  <p className="text-xs text-gray-400">
+                    {formatTimestamp(item.timestamp)}
+                  </p>
+                </div>
+
+                <p className="font-semibold text-white">
+                  {Number(item.amount)
+                    .toFixed(3)
+                    .replace(/\.?0+$/, "")}{" "}
+                  OPN
                 </p>
               </div>
-
-              <p className="font-semibold text-white">
-                {Number(item.amount)
-                  .toFixed(3)
-                  .replace(/\.?0+$/, "")}{" "}
-                OPN
-              </p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>
