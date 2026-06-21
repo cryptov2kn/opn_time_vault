@@ -1,6 +1,8 @@
 import { getInjectedProvider } from "./provider";
 export async function checkNetwork() {
-  if (!window.ethereum) {
+
+  const provider = getInjectedProvider();
+  if (!provider) {
     return false;
   }
 

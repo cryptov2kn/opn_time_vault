@@ -1,5 +1,6 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
+import { getInjectedProvider } from "@/lib/provider";
 
 import { connectWallet } from "../lib/wallet";
 import { getLockInfo, lockAssets, unlockAssets } from "../lib/contract";
@@ -403,7 +404,7 @@ export default function Home() {
 
   // 5. REALTIME EFFECTS
   useEffect(() => {
-    const ethereum = window.ethereum;
+    const ethereum = getInjectedProvider();
 
     if (!ethereum) {
       return;
@@ -461,7 +462,9 @@ export default function Home() {
   }, [unlockTimestamp]);
 
   useEffect(() => {
-    if (!window.ethereum?.on) {
+    const ethereum = getInjectedProvider();
+
+    if (!ethereum?.on) {
       return;
     }
 
@@ -471,10 +474,10 @@ export default function Home() {
       setIsCorrectNetwork(isCorrect);
     };
 
-    window.ethereum.on("chainChanged", handleChainChanged);
+    ethereum.on?.("chainChanged", handleChainChanged);
 
     return () => {
-      window.ethereum?.removeListener?.("chainChanged", handleChainChanged);
+      ethereum.removeListener?.("chainChanged", handleChainChanged);
     };
   }, []);
 
