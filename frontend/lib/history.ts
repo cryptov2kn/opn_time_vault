@@ -25,7 +25,6 @@ export async function getHistory(
     return JSON.parse(cached);
   }
 
-  //const provider = new BrowserProvider(window.ethereum!);
   const provider = new BrowserProvider(getInjectedProvider()!);
 
   const contract = new Contract(CONTRACT_ADDRESS, CONTRACT_ABI, provider);

@@ -14,6 +14,8 @@ A decentralized time-lock vault built on the OPN network.
 
 Users can lock OPN assets for a selected duration, monitor lock status, track transaction history, and unlock assets once the lock period expires.
 
+Fully deployed on OPN Testnet with support for both MetaMask and OKX Wallet.
+
 ## 🚀 Live Demo
 
 [Launch Application](https://opn-time-vault.vercel.app)
@@ -34,6 +36,11 @@ Users can lock OPN assets for a selected duration, monitor lock status, track tr
 - Network Validation
 - Responsive UI
 - Local History Caching
+
+### Supported Wallets
+
+- MetaMask
+- OKX Wallet
 
 ## 📸 Screenshots
 

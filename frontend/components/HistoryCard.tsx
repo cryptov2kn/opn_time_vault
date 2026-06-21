@@ -61,14 +61,6 @@ export default function HistoryCard({
   });
 
   const isHistoryCurrent = historyWallet === currentWallet;
-  console.log("historyWallet =", historyWallet);
-  console.log("currentWallet =", currentWallet);
-  console.log("isHistoryCurrent =", historyWallet === currentWallet); //test new
-
-  console.log("history.length =", history.length);
-  console.log("filteredHistory.length =", filteredHistory.length);
-  console.log("isLoading =", isLoading);
-  console.log("walletChanging =", walletChanging);
 
   return (
     <div className="mt-5 rounded-2xl border border-gray-700 bg-gray-800 p-4">

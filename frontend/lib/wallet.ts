@@ -2,13 +2,6 @@ import { BrowserProvider, formatEther } from "ethers";
 import { getInjectedProvider } from "./provider";
 
 export async function connectWallet() {
-  /*if (!window.ethereum) {
-    throw new Error("Wallet not found");
-  }
-
-  const provider = new BrowserProvider(
-    window.ethereum
-  );*/
   const ethereum = getInjectedProvider();
 
   if (!ethereum) {

@@ -237,7 +237,7 @@ export default function Home() {
       setIsHistoryLoading(true);
       const data = await getHistory(fullAddress);
       setHistory(data);
-      setHistoryWallet(fullAddress); //test
+      setHistoryWallet(fullAddress);
       setHistoryLoaded(true);
     } catch (error) {
       console.error(error);
@@ -261,7 +261,7 @@ export default function Home() {
       console.log(`History updated: ${data.length} transactions`);
 
       setHistory(data);
-      setHistoryWallet(fullAddress); //test new
+      setHistoryWallet(fullAddress);
       setHistoryLoaded(true);
     } catch (error) {
       console.error(error);
