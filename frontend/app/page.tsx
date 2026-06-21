@@ -211,18 +211,51 @@ export default function Home() {
     [],
   );
 
+  const resetVaultData = useCallback(() => {
+    setBalance("0 OPN");
+    setRawBalance(0);
+
+    setLockedValue(0);
+    setLockedAmount("0 OPN");
+
+    setRemainingTime("--");
+
+    setUnlockDate("Not Locked");
+    setUnlockTimestamp(0);
+
+    setCanUnlock(false);
+
+    setHistory([]);
+    setHistoryWallet("");
+    setHistoryLoaded(false);
+    setIsHistoryLoading(false);
+  }, []);
+
   const handleConnect = useCallback(async () => {
     try {
       const wallet = await connectWallet();
 
-      await checkNetwork();
+      // CONNECT WALLET
+      setAddress(`${wallet.address.slice(0, 6)}...${wallet.address.slice(-4)}`);
+      setFullAddress(wallet.address);
+      setIsConnected(true);
+
+      // CHECK NETWORK
+      const isCorrect = await checkNetwork();
+      setIsCorrectNetwork(isCorrect);
+
+      if (!isCorrect) {
+        resetVaultData();
+        return;
+      }
 
       setHistoryLoaded(false);
+
       await loadWalletData(wallet);
     } catch (error) {
       console.error(error);
     }
-  }, [loadWalletData]);
+  }, [loadWalletData, resetVaultData]);
 
   const loadHistory = useCallback(async () => {
     if (!fullAddress) {
@@ -472,6 +505,19 @@ export default function Home() {
       const isCorrect = await checkNetwork();
 
       setIsCorrectNetwork(isCorrect);
+
+      if (!isCorrect) {
+        resetVaultData();
+        return;
+      }
+
+      if (!fullAddress) {
+        return;
+      }
+
+      const wallet = await connectWallet();
+
+      await loadWalletData(wallet);
     };
 
     ethereum.on?.("chainChanged", handleChainChanged);
@@ -479,7 +525,7 @@ export default function Home() {
     return () => {
       ethereum.removeListener?.("chainChanged", handleChainChanged);
     };
-  }, []);
+  }, [fullAddress, loadWalletData, resetVaultData]);
 
   useEffect(() => {
     if (activeTab === "history" && fullAddress && !historyLoaded) {
