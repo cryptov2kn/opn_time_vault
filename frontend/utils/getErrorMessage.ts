@@ -12,6 +12,18 @@ export function getErrorMessage(error: any) {
     return "Transaction cancelled";
   }
 
+  // ===== ADD THIS BLOCK =====
+  if (
+    message.includes("json-rpc") ||
+    message.includes("unknown_error") ||
+    message.includes("internal json-rpc error") ||
+    message.includes("height") ||
+    message.includes("rpc endpoint returned too many errors")
+  ) {
+    return "OPN Testnet RPC is temporarily busy. Please wait a few seconds and try again.";
+  }
+  // ==========================
+
   if (message.includes("insufficient funds")) {
     return "Insufficient balance for gas";
   }

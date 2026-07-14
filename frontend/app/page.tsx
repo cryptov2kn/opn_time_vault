@@ -5,7 +5,7 @@ import { getInjectedProvider } from "@/lib/provider";
 import { connectWallet } from "../lib/wallet";
 import { getLockInfo, lockAssets, unlockAssets } from "../lib/contract";
 import { checkNetwork } from "@/lib/network";
-import { getHistory } from "@/lib/history";
+import { getHistoryV2 } from "@/lib/history";
 
 import { formatBalance } from "@/utils/formatBalance";
 import { getErrorMessage } from "@/utils/getErrorMessage";
@@ -146,7 +146,7 @@ export default function Home() {
     setHistory([]);
   }
 
-  function clearHistoryCache() {
+  /*function clearHistoryCache() {
     if (!fullAddress) {
       return;
     }
@@ -155,7 +155,7 @@ export default function Home() {
 
     setHistory([]);
     setHistoryLoaded(false);
-  }
+  }*/
   // 3. WALLET FUNCTIONS
 
   const loadWalletData = useCallback(
@@ -257,7 +257,7 @@ export default function Home() {
     }
   }, [loadWalletData, resetVaultData]);
 
-  const loadHistory = useCallback(async () => {
+  const loadHistoryV2 = useCallback(async () => {
     if (!fullAddress) {
       return;
     }
@@ -268,7 +268,7 @@ export default function Home() {
 
     try {
       setIsHistoryLoading(true);
-      const data = await getHistory(fullAddress);
+      const data = await getHistoryV2(fullAddress);
       setHistory(data);
       setHistoryWallet(fullAddress);
       setHistoryLoaded(true);
@@ -280,7 +280,7 @@ export default function Home() {
     }
   }, [fullAddress, historyLoaded, history.length]);
 
-  const refreshHistory = async () => {
+  const refreshHistoryV2 = async () => {
     if (!fullAddress) {
       return;
     }
@@ -288,9 +288,8 @@ export default function Home() {
     try {
       setIsHistoryLoading(true);
 
-      localStorage.removeItem(`history_${fullAddress}`);
+      const data = await getHistoryV2(fullAddress);
 
-      const data = await getHistory(fullAddress);
       console.log(`History updated: ${data.length} transactions`);
 
       setHistory(data);
@@ -347,10 +346,10 @@ export default function Home() {
 
       await handleConnect();
 
-      clearHistoryCache();
+      //clearHistoryCache();
 
       setTimeout(() => {
-        refreshHistory();
+        refreshHistoryV2();
       }, 5000);
 
       console.log("Lock completed and history refreshed");
@@ -373,10 +372,10 @@ export default function Home() {
 
       await handleConnect();
 
-      clearHistoryCache();
+      //clearHistoryCache();
 
       setTimeout(() => {
-        refreshHistory();
+        refreshHistoryV2();
       }, 5000);
 
       console.log("Unlock completed and history refreshed");
@@ -530,10 +529,11 @@ export default function Home() {
   useEffect(() => {
     if (activeTab === "history" && fullAddress && !historyLoaded) {
       queueMicrotask(() => {
-        void loadHistory();
+        //void loadHistory();
+        void loadHistoryV2();
       });
     }
-  }, [activeTab, fullAddress, historyLoaded, loadHistory]);
+  }, [activeTab, fullAddress, historyLoaded, loadHistoryV2]);
 
   /*useEffect(() => {
     void autoConnect();
@@ -609,7 +609,8 @@ hover:scale-[1.01]
               onClick={async () => {
                 setActiveTab("history");
 
-                await loadHistory();
+                //await loadHistory();
+                await loadHistoryV2();
               }}
               className={`
         flex-1
@@ -699,7 +700,7 @@ hover:scale-[1.01]
                 filter={historyFilter}
                 walletChanging={walletChanging}
                 onFilterChange={setHistoryFilter}
-                onRefresh={refreshHistory}
+                onRefresh={refreshHistoryV2}
               />
             )}
           </div>

@@ -12,22 +12,44 @@ import type { HistoryItem } from "../types/history";
 
 import { getInjectedProvider } from "./provider";
 
-export async function getHistory(
+export async function getHistoryV2(
   walletAddress: string,
 ): Promise<HistoryItem[]> {
-  const cacheKey = `history_${walletAddress}`;
+  const historyKey = `history_${walletAddress}`;
 
-  const cached = localStorage.getItem(cacheKey);
+  const lastBlockKey = `history_lastBlock_${walletAddress}`;
 
-  if (cached) {
-    console.log("Loaded history from cache");
+  const cachedHistory = localStorage.getItem(historyKey);
 
-    return JSON.parse(cached);
-  }
+  const cachedLastBlock = localStorage.getItem(lastBlockKey);
+
+  const oldHistory: HistoryItem[] = cachedHistory
+    ? JSON.parse(cachedHistory)
+    : [];
+
+  const lastBlock = cachedLastBlock ? Number(cachedLastBlock) : null;
 
   const provider = new BrowserProvider(getInjectedProvider()!);
 
   const contract = new Contract(CONTRACT_ADDRESS, CONTRACT_ABI, provider);
+
+  const DEPLOY_BLOCK = 19880000;
+
+  const latestBlock = await provider.getBlock("latest");
+
+  if (!latestBlock) {
+    return oldHistory;
+  }
+
+  const currentBlock = latestBlock.number;
+
+  const latestSyncedBlock = currentBlock;
+
+  const startBlock = lastBlock !== null ? lastBlock + 1 : DEPLOY_BLOCK;
+
+  if (startBlock > currentBlock) {
+    return oldHistory;
+  }
 
   async function getEventsInChunks(
     filter: DeferredTopicFilter,
@@ -37,36 +59,34 @@ export async function getHistory(
     const CHUNK_SIZE = 10000;
 
     const requests = [];
+
     for (let from = startBlock; from <= endBlock; from += CHUNK_SIZE) {
       const to = Math.min(from + CHUNK_SIZE - 1, endBlock);
 
       requests.push(contract.queryFilter(filter, from, to));
     }
+
     const results = await Promise.all(requests);
-    const events = results.flat();
-    return events;
+
+    return results.flat();
   }
-
-  const DEPLOY_BLOCK = 18830000;
-  //const DEPLOY_BLOCK = 18630000;
-
-  const currentBlock = await provider.getBlockNumber();
 
   const [lockedEvents, unlockedEvents] = await Promise.all([
     getEventsInChunks(
       contract.filters.Locked(walletAddress),
-      DEPLOY_BLOCK,
+      startBlock,
       currentBlock,
     ),
 
     getEventsInChunks(
       contract.filters.Unlocked(walletAddress),
-      DEPLOY_BLOCK,
+      startBlock,
       currentBlock,
     ),
   ]);
 
   const blockCache = new Map<number, number>();
+
   async function getBlockTimestamp(blockNumber: number) {
     const cached = blockCache.get(blockNumber);
 
@@ -119,11 +139,27 @@ export async function getHistory(
     }),
   );
 
-  const history = [...lockHistory, ...unlockHistory];
+  const newHistory = [...lockHistory, ...unlockHistory];
 
-  history.sort((a, b) => b.timestamp - a.timestamp);
+  const mergedHistory = [...newHistory, ...oldHistory];
 
-  localStorage.setItem(cacheKey, JSON.stringify(history));
+  const seen = new Set<string>();
 
-  return history;
+  const uniqueHistory = mergedHistory.filter((item) => {
+    if (seen.has(item.txHash)) {
+      return false;
+    }
+
+    seen.add(item.txHash);
+
+    return true;
+  });
+
+  uniqueHistory.sort((a, b) => b.timestamp - a.timestamp);
+
+  localStorage.setItem(historyKey, JSON.stringify(uniqueHistory));
+
+  localStorage.setItem(lastBlockKey, latestSyncedBlock.toString());
+
+  return uniqueHistory;
 }
